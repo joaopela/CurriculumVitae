@@ -1,0 +1,500 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %% 
+%% LaTeX to get the ``??'' replaced with the number of the last page  %% 
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+\usepackage[paper=letterpaper,
+            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=1.2in,     % Length of section titles
+            marginparsep=.05in,       % Space between titles and text
+            margin=1in,               % 1 inch margins
+            includemp]{geometry}
+
+%% Use these lines for A4-sized paper
+%\usepackage[paper=a4paper,
+%            %includefoot, % Uncomment to put page number above margin
+%            marginparwidth=30.5mm,    % Length of section titles
+%            marginparsep=1.5mm,       % Space between titles and text
+%            margin=25mm,              % 25mm margins
+%            includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+%% This gives us fun enumeration environments. compactitem will be nice.
+\usepackage{paralist}
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+                    \arabic{page} of \protect\pageref*{LastPage} % +LP
+%                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+%
+% Usage: \makeheading{name}
+%
+% Place at top of document. It should be the first thing.
+\newcommand{\makeheading}[1]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+                {\large \bfseries #1}\\[-0.15\baselineskip]%
+                 \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+%
+% Follow this section IMMEDIATELY with the first line of the section
+% text. Do not put whitespace in between. That is, do this:
+%
+%       \section{My Information}
+%       Here is my information.
+%
+% and NOT this:
+%
+%       \section{My Information}
+%
+%       Here is my information.
+%
+% Otherwise the top of the section header will not line up with the top
+% of the section. Of course, using a single comment character (%) on
+% empty lines allows for the function of the first example with the
+% readability of the second example.
+\renewcommand{\section}[2]%
+        {\pagebreak[2]\vspace{1.3\baselineskip}%
+         \phantomsection\addcontentsline{toc}{section}{#1}%
+         \hspace{0in}%
+         \marginpar{
+         \raggedright \scshape #1}#2}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1]}{\end{itemize}%
+         \vspace{-.6\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section 
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\vspace{-\baselineskip}\begin{list}{#1}{%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+
+% An itemize-style list with little space between items
+\newenvironment{innerlist}[1][\enskip\textbullet]%
+        {\begin{compactitem}[#1]}{\end{compactitem}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[2]}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\makeheading{João Carlos Arnauth Pela}
+
+\section{Contact Information}
+%
+% NOTE: Mind where the & separators and \\ breaks are in the following
+%       table.
+%
+% ALSO: \rcollength is the width of the right column of the table 
+%       (adjust it to your liking; default is 1.85in).
+%
+\newlength{\rcollength}\setlength{\rcollength}{1.85in}%
+%
+\begin{tabular}[t]{@{}p{\textwidth-\rcollength}p{\rcollength}}
+Trav. do Pregoeiro         & \textit{Voice (CH):} +41762021757  \\
+nº24, 3º Esq.              & \textit{Voice (PT):} +351926357397\\
+1600-588 Lisboa            & \textit{E-mail:} \href{mailto:joaopela@gmail.com}{joaopela@gmail.com}\\
+Portugal                   & \textit{WWW:} \href{http://www.nfist.pt/~pela}{www.nfist.pt/\~{}pela}\\
+
+\end{tabular}
+ 
+\section{Citizenship}
+Portuguese
+
+\section{Research Interests}
+%
+High Energy Physics, Instrumentation, Detector Design, Simulation, Nuclear Fusion
+
+\section{Education}
+%
+\href{http://www.ist.utl.pt/}{\textbf{Instituto Superior Técnico}}, 
+Lisboa, Portugal
+\begin{outerlist}
+
+\item[] M.S., 
+        \href{http://www.fisica.ist.utl.pt/}
+             {Engineering Physics and Technology},Oct 2010
+        \begin{innerlist}
+        \item With final grade of 18 (in 20)
+        \item Thesis Topic: Multi-Lepton Final States in the Search for New Physics at the Large Hadron Collider
+        \item Supervisor: 
+              \href{http://www.lip.pt/~varela/}
+                   {Professor João Varela}
+        \item Co-Supervisor: 
+              \href{http://www.lip.pt/~michgall/}
+                   {Michele Gallinaro}
+        \item Area of Study: Experimental Particle Physics
+        \end{innerlist}
+
+\item[] B.S., 
+        \href{http://www.fisica.ist.utl.pt/}
+             {Engineering Physics and Technology}, Feb 2009
+        \begin{innerlist}
+        \item With final grade of 14 (in 20)
+        \item Engineering specialization (emphasis on Instrumentation)
+        \end{innerlist}
+
+\end{outerlist}
+
+\section{Complementary Education}
+
+\href{http://www.ist.utl.pt/}{\textbf{Instituto Superior Técnico}}, 
+Lisboa, Portugal
+\begin{outerlist}
+\item[] Level 1 Mechanical Workshop Course, Jun 2010
+        \begin{innerlist}
+        \item Basic use and construction techniques with Mechanical Workshop tools and machines
+        \item Allows use of the Instituto Superior Técnico Mechanical Workshop
+        \end{innerlist}
+\end{outerlist}
+
+\section{Scientific Professional Experience}
+%
+\href{http://www.cern.ch/}{\textbf{CERN - European Organization for Nuclear Research}},
+Geneva, Switzerland
+\begin{outerlist}
+
+\item[] \textit{Engineer/Physicist for the CMS Experiment at the LHC}%
+        \hfill \textbf{Feb 2011 to current}
+\begin{innerlist}
+\item Design and implementation of monitoring tools for the Level 1 Trigger in the framework of
+      the Data Quality Monitoring (DQM) system. Resulting work is used for online monitoring and
+      data quality certification. 
+\item A shift as CMS Shift Leader (collisions) \hfill \textbf{Aug 2001}
+\item Several shifts as CMS Online Trigger Shifter (collisions) \hfill \textbf{Aug 2011 to current}
+\end{innerlist}
+
+\end{outerlist}
+
+\blankline
+
+%
+\href{http://www.lip.pt/}{\textbf{Laboratório de Instrumentação e Física Experimental de Partículas}},
+Lisbon, Portugal
+\begin{outerlist}
+
+\item[] \textit{Junior Researcher for the CMS Experiment at the LHC}%
+        \hfill \textbf{2007 to 2010}
+\begin{innerlist}
+\item Coordinator and developer of the EXOTrilepton Exercise for CMS Exotica group as a part of 2009 October Exercise with the objective of testing LHC Data Flow Model
+\hfill \textbf{Oct 2009}
+\item Several shifts as CMS-ECAL Barrel, Endcaps and Safety Shifter, during the CRAFT 2009 (cosmics) program. 
+\hfill \textbf{Aug 2009}
+\item Design and implementation of method for studying potential for Universal Extra Dimensions with a four lepton final state
+\hfill \textbf{Dec 2008 to present}
+\item Design and implementation of method for studying $t\bar{t}$ in semileptonic and fully leptonic with hadronic $\tau$ channels
+\hfill \textbf{Set 2007 to Dec 2008}
+\end{innerlist}
+
+\end{outerlist}
+
+\blankline
+
+\href{http://www.cfn.ist.utl.pt/}{\textbf{Centro de Fusão Nuclear}}, 
+Lisboa, Portugal
+\begin{outerlist}
+
+\item[] \textit{Experimental Physist}%
+        \hfill \textbf{2003}
+\begin{innerlist}
+\item Helped to design a test PCB Board to implement the new system of slow control of
+the ISTOK Tokamak Fusion Reactor based in CAN technology  
+\end{innerlist}
+
+\end{outerlist}
+
+\section{Publications}
+
+\begin{outerlist}
+\item[] \textit{Thesis}
+
+\begin{innerlist}
+\item \href{https://fenix.ist.utl.pt/publico/showDegreeTheses.do?thesisID=226852&contentContextPath_PATH=/cursos/meft/dissertacoes&degreeID=null&method=showThesisDetails&locale=en_EN}{Multi-Lepton Final States in the Search for New Physics at the Large Hadron Collider}, João Carlos Arnauth Pela, 2010, Instituto Superior Técnico
+\end{innerlist}
+
+\end{outerlist}
+
+\begin{outerlist}
+\item[] \textit{CMS Internal Notes (direclty involved)}
+
+\begin{innerlist}
+\item CMS Exotica PAG: E. Barberis, O. Boeriu, J. Brooke, G. Bruno, J. Chen, J.P. Chou, K. F. Chen, A. De Roeck, 
+S. Eno, M. Gallinaro, S. Harper, C. Hill, G. Landsberg, M. Mozer, J. Pela, S. Rappoccio, 
+A. Rizzi, K. Rossato, P. Rumerio, A. Safonov, C. Shepherd-Themistocleous, 
+\emph{``Data Flow for the CMS Exotica Group for Early Running``} CMS AN - 2009/XX
+(Under Preparation)
+\item P. Ribeiro, M. Gallinaro, M. Kazana, J. Pela, J. Varela, \emph{“Discovery potential for Universal Extra
+Dimensions in the four leptons final state in pp collisions at $\sqrt{s}$ = 14 TeV”} CMS AN - 2008/035 
+\end{innerlist}
+
+\item[] \textit{CMS Papers (as a member of the CMS collaboration)}
+\begin{innerlist}
+\item 1) Measurement of the Differential Cross Section for Isolated Prompt Photon Production in pp Collisions at 7 TeV., , By CMS Collaboration, [arXiv:1108.2044], CMS-QCD-10-037 (Aug 2011)
+\item 2) Measurement of the Drell-Yan Cross Section in pp Collisions at sqrt(s) = 7 TeV., , By CMS Collaboration, [arXiv:1108.0566] CMS-EWK-10-007 (Aug 2011)
+\item 3) Search for B(s) and B to dimuon decays in pp collisions at 7 TeV., By CMS Collaboration, [arXiv:1107.5834] CMS-BPH-11-002 (Jul 2011)
+\item 4) Dependence on pseudorapidity and centrality of charged hadron production in PbPb collisions at a nucleon-nucleon centre-of-mass energy of 2.76 TeV., By CMS Collaboration, [arXiv:1107.4800] CMS-HIN-10-001 (Jul 2011)
+\item 5) Measurement of the Inclusive W and Z Production Cross Sections in pp Collisions at sqrt(s) = 7 TeV., By CMS Collaboration, [arXiv:1107.4789] CMS-EWK-10-005 (Jul 2011) 68p.
+\item 6) Search for Resonances in the Dijet Mass Spectrum from 7 TeV pp Collisions at CMS., By CMS Collaboration, [arXiv:1107.4771] CMS-EXO-11-015 (Jul 2011)
+\item 7) Determination of Jet Energy Calibration and Transverse Momentum Resolution in CMS., By CMS Collaboration, [arXiv:1107.4277] CMS-JME-10-011 (Jul 2011)
+\item 8) Search for Three-Jet Resonances in pp Collisions at sqrt(s) = 7 TeV., By CMS Collaboration, [arXiv:1107.3084] CMS-EXO-11-001 (Jul 2011)
+\item 9) Search for supersymmetry in pp collisions at sqrt(s)=7 TeV in events with a single lepton, jets, and missing transverse momentum., By CMS Collaboration, [arXiv:1107.1870] CMS-SUS-10-006 (Jul 2011)
+\item 10) A search for excited leptons in pp Collisions at sqrt(s) = 7 TeV., By CMS Collaboration, [arXiv:1107.1773] CMS-EXO-10-016 (Jul 2011)
+\item 11) Inclusive search for squarks and gluinos in pp collisions at sqrt(s) = 7 TeV., By CMS Collaboration, [arXiv:1107.1279] (Jul 2011)
+\item 12) Search for New Physics with a Mono-Jet and Missing Transverse Energy in pp Collisions at sqrt(s) = 7 TeV., By CMS Collaboration, [arXiv:1106.4775] CMS-EXO-11-003 (Jun 2011)
+\item 13) Search for New Physics with Jets and Missing Transverse Momentum in pp collisions at sqrt(s) = 7 TeV., By CMS Collaboration, [arXiv:1106.4503] CMS-SUS-10-005 (Jun 2011)
+\item 14) Measurement of the Strange B Meson Production Cross Section with J/Psi phi Decays in pp Collisions at sqrt(s) = 7 TeV., By CMS Collaboration, [arXiv:1106.4048] CMS-BPH-10-013 (Jun 2011)
+\item 15) Search for Supersymmetry in Events with b Jets and Missing Transverse Momentum at the LHC., By CMS Collaboration, JHEP 1107:113,2011,. [arXiv:1106.3272]
+\item 16) Measurement of the t-channel single top quark production cross section in pp collisions at sqrt(s) = 7 TeV., By CMS Collaboration, [arXiv:1106.3052] CMS-TOP-10-008 (Jun 2011) 27p.
+\item 17) Search for Light Resonances Decaying into Pairs of Muons as a Signal of New Physics., By CMS Collaboration, JHEP 1107:098,2011,. [arXiv:1106.2375]
+\item 18) Search for Same-Sign Top-Quark Pair Production at sqrt(s) = 7 TeV and Limits on Flavour Changing Neutral Currents in the Top Sector., By CMS Collaboration, JHEP 1108:005,2011,. [arXiv:1106.2142]
+\item 19) Search for Physics Beyond the Standard Model Using Multilepton Signatures in pp Collisions at sqrt(s)=7 TeV., By CMS Collaboration, [arXiv:1106.0933] CMS-SUS-10-008 (Jun 2011)
+\item 20) Indications of suppression of excited $\Upsilon$ states in PbPb collisions at $\sqrt{S_{NN}}$ = 2.76 TeV., By CMS Collaboration, Phys.Rev.Lett.107:052302,2011,. [arXiv:1105.4894]
+\item 21) Commissioning and Performance of the CMS Pixel Tracker with Cosmic Ray Muons., By CMS Collaboration, JINST 5:T03007,2010,. [arXiv:0911.5434]
+\item 22) Performance of the CMS Level-1 Trigger during Commissioning with Cosmic Ray Muons., By CMS Collaboration, JINST 5:T03002,2010,. [arXiv:0911.5422]
+\item 23) Measurement of the Muon Stopping Power in Lead Tungstate., By CMS Collaboration, JINST 5:P03007,2010,. [arXiv:0911.5397]
+\item 24) Commissioning and Performance of the CMS Silicon Strip Tracker with Cosmic Ray Muons., By CMS Collaboration, JINST 5:T03008,2010,. [arXiv:0911.4996]
+\item 25) Performance of CMS Muon Reconstruction in Cosmic-Ray Events., By CMS Collaboration, JINST 5:T03022,2010,. [arXiv:0911.4994]
+\item 26) Performance of the CMS Cathode Strip Chambers with Cosmic Rays., By CMS Collaboration, JINST 5:T03018,2010,. [arXiv:0911.4992]
+\item 27) Performance of the CMS Hadron Calorimeter with Cosmic Ray Muons and LHC Beam Data., By CMS Collaboration, JINST 5:T03012,2010,. [arXiv:0911.4991]
+\item 28) Fine Synchronization of the CMS Muon Drift-Tube Local Trigger using Cosmic Rays., By CMS Collaboration, JINST 5:T03004,2010,. [arXiv:0911.4904]
+\item 29) Calibration of the CMS Drift Tube Chambers and Measurement of the Drift Velocity with Cosmic Rays., By CMS Collaboration, JINST 5:T03016,2010,. [arXiv:0911.4895]
+\item 30) Performance of the CMS Drift-Tube Local Trigger with Cosmic Rays., By CMS Collaboration, JINST 5:T03003,2010,. [arXiv:0911.4893]
+\item 31) Commissioning of the CMS High-Level Trigger with Cosmic Rays., By CMS Collaboration, JINST 5:T03005,2010,. [arXiv:0911.4889]
+\item 32) Identification and Filtering of Uncharacteristic Noise in the CMS Hadron Calorimeter., By CMS Collaboration, JINST 5:T03014,2010,. [arXiv:0911.4881]
+\item 33) Performance of CMS Hadron Calorimeter Timing and Synchronization using Test Beam, Cosmic Ray, and LHC Beam Data., By CMS Collaboration, JINST 5:T03013,2010,. [arXiv:0911.4877]
+\item 34) Performance of the CMS Drift Tube Chambers with Cosmic Rays., By CMS Collaboration, JINST 5:T03015,2010,. [arXiv:0911.4855]
+\item 35) Commissioning of the CMS Experiment and the Cosmic Run at Four Tesla., By CMS Collaboration, JINST 5:T03001,2010,. [arXiv:0911.4845]
+\item 36) CMS Data Processing Workflows during an Extended Cosmic Ray Run., By CMS Collaboration, JINST 5:T03006,2010,. [arXiv:0911.4842]
+\item 37) Aligning the CMS Muon Chambers with the Muon Alignment System during an Extended Cosmic Ray Run., By CMS Collaboration, JINST 5:T03019,2010,. [arXiv:0911.4770]
+\item 38) Performance Study of the CMS Barrel Resistive Plate Chambers with Cosmic Rays., By CMS Collaboration, JINST 5:T03017,2010,. [arXiv:0911.4045]
+\item 39) Time Reconstruction and Performance of the CMS Electromagnetic Calorimeter., By CMS Collaboration, JINST 5:T03011,2010,. [arXiv:0911.4044]
+\item 40) Alignment of the CMS Muon System with Cosmic-Ray and Beam-Halo Muons., By CMS Collaboration, JINST 5:T03020,2010,. [arXiv:0911.4022]
+\item 41) Precise Mapping of the Magnetic Field in the CMS Barrel Yoke using Cosmic Rays., By CMS Collaboration, JINST 5:T03021,2010,. [arXiv:0910.5530]
+\item 42) Performance and Operation of the CMS Electromagnetic Calorimeter., By CMS Collaboration, JINST 5:T03010,2010,. [arXiv:0910.3423]
+\item 43) Alignment of the CMS Silicon Tracker during Commissioning with Cosmic Rays., By CMS Collaboration, JINST 5:T03009,2010,. [arXiv:0910.2505]
+\end{innerlist}
+
+\end{outerlist}
+
+\section{Conference Presentations}
+%
+\href{http://pasc.ist.utl.pt/winterschool2008/}{PASC Winter School 2008} - Discovery potential for Extra Dimensions in the four lepton final state at the LHC
+
+\section{Academic Experience}
+\href{http://www.ist.utl.pt/}{\textbf{Instituto Superior Técnico}}, 
+Lisboa, Portugal
+\begin{outerlist}
+\item[] \textit{Graduate Student}%
+        \hfill \textbf{Feb 2009 to present}
+
+\item[] \textit{Undergraduate Student}%
+        \hfill \textbf{September 2002 to February 2009}
+
+\item[] \href{http://nfist.pt/}
+           {NFIST (IST Physics Students Association) Member}
+\hfill \textbf{September 2002 to present}
+
+\begin{innerlist}
+  \item Development and implementation of School Registration Web Application for \href{http://sf11.nfist.pt/}{\textit{Physics Week 11}} and \href{http://sf12.nfist.pt/}{\textit{Physics Week 12}} at IST
+  \item Development and implementation of an integrated system of mailing lists, library and forum
+  \item Responsible for many activities over the years
+  \item Responsible and developer of many activities Web Site (Social Activities and Outreach).
+\end{innerlist}
+
+\item[] \href{http://enef2008.nfist.pt/}{National Physics Students Meeting 2008}
+\begin{innerlist}
+  \item Member of the organization committee
+  \item Development and implementation of all the website's applications, 
+including Student Registration, Forum, News Portal, etc
+\end{innerlist}
+
+\end{outerlist}
+
+\section{Other Professional Experience}
+
+\begin{innerlist}
+\item Web Designer, designed commercial web sites for 2 small companies
+\item Judo Teacher, during a period of 2 years in two separated schools
+\item Sysadmin, for a local sports club during 2 years
+\item Counselor in Summer Camp, during a single summer (also supported Judo classes in that camp)
+\end{innerlist}
+
+\newpage
+\section{Language Skills}
+%
+\begin{outerlist}
+\item[] Portuguese
+        \begin{innerlist}
+        \item Native Speaker
+        \end{innerlist}
+
+\item[] English
+        \begin{innerlist}
+        \item \href{http://www.ielts.org}{IELTS Certification} at 30/Jan/2010 with scores: Listening 7.0, Reading 7.5,
+              Writing 6.5, Speaking 7.0, Overall Band Score 7.0 (Good User)
+        \item 1st language of choice during undergraduate studies (7 years of classes)
+        \item Language used in work place for since 2007 
+        \end{innerlist}
+
+\item[] French
+        \begin{innerlist}
+        \item Good comprehension of spoken and written language
+        \item Resonable speaking capability
+        \item 2nd language of choice during undergraduate studies (3 years of classes) 
+        \end{innerlist}
+
+\item[] Spanish
+        \begin{innerlist}
+        \item Good comprehension of spoken and written language
+        \end{innerlist}
+\end{outerlist}
+
+\section{Technical Skills} 
+
+Extensive hardware and software experience in networking and
+        information technology
+
+\blankline
+
+Programming: C, C++, Python, JAVA, Fortran 95, Python, Mathematica, Assembler
+
+Database: MySQL, SQL
+
+Web Oriented: HTML, PHP, CSS, Javascript, XML
+
+System Administration: Shell Scripting (Bash, SH Shell), SVN, CVS
+
+\blankline
+
+Applications: \LaTeX{}, Microsoft Office, Open Office,
+        and other common productivity packages for Windows and
+        Linux platforms
+
+\blankline
+
+Operating Systems: Linux (administration knowledge), Microsoft Windows XP/2000/Vista/7
+
+\blankline
+
+Driver's Licence for motorcycle (all A classes) and cars (B class)
+
+\blankline
+
+\section{Sports Experience}
+%
+\begin{outerlist}
+  \item[] Judo
+  \begin{innerlist}
+    \item Graduation: $2^{nd}$ Dan - $2^{nd}$ Degree black belt \hfill \textbf{2007}
+    \item Teaching: Schools and Summer Camps
+    \item Refereeing: Regional Referee \hfill \textbf{2008}
+    \item Competition: $3^{rd}$ National Kata Championship 2007, $2^{nd}$ National Univercitary Championship 2005-06, $3^{rd}$ Place, National Univercitary Championship 2004-05
+  \end{innerlist}
+  \item[] Other Sports Experience:
+  \begin{innerlist}
+    \item Martial Arts: Aikido, Iaido, Ju-Jitsu
+    \item Table Tennis
+    \item Swimming
+  \end{innerlist}
+\end{outerlist}
+
+\end{document}
+
+\blankline
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% End CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
